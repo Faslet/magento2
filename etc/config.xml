@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <faslet_connect>
+            <general>
+                <version>v1.0.0</version>
+                <enable>0</enable>
+            </general>
+            <data>
+                <identifier_attribute>entity_id</identifier_attribute>
+                <sku_attribute>sku</sku_attribute>
+                <brand_attribute>manufacturer</brand_attribute>
+                <size_attribute>size</size_attribute>
+                <color_attribute>color</color_attribute>
+            </data>
+        </faslet_connect>
+    </default>
+</config>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="data" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Product Data</label>
+        <field id="identifier_attribute" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Identifier</label>
+            <source_model>Faslet\Connect\Model\System\Config\Source\Attribute</source_model>
+            <config_path>faslet_connect/data/identifier_attribute</config_path>
+        </field>
+        <field id="sku_attribute" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>SKU</label>
+            <source_model>Faslet\Connect\Model\System\Config\Source\Attribute</source_model>
+            <config_path>faslet_connect/data/sku_attribute</config_path>
+        </field>
+        <field id="brand_attribute" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Brand</label>
+            <source_model>Faslet\Connect\Model\System\Config\Source\Attribute</source_model>
+            <config_path>faslet_connect/data/brand_attribute</config_path>
+        </field>
+        <field id="size_attribute" translate="label comment" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Size</label>
+            <source_model>Faslet\Connect\Model\System\Config\Source\Attribute</source_model>
+            <config_path>faslet_connect/data/size_attribute</config_path>
+        </field>
+        <field id="color_attribute" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Color</label>
+            <source_model>Faslet\Connect\Model\System\Config\Source\Attribute</source_model>
+            <config_path>faslet_connect/data/color_attribute</config_path>
+        </field>
+    </group>
+</include>

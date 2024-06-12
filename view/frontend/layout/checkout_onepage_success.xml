@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="https://widget.prod.faslet.net/faslet-orders.js" src_type="url" />
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block name="faslet_order_tracking" template="Faslet_Connect::order-tracking.phtml" after="checkout.success">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Faslet\Connect\ViewModel\OrderTracking</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

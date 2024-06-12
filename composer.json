@@ -1,0 +1,25 @@
+{
+    "name": "faslet/magento2",
+    "description": "Faslet module for Magento 2",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "BSD-2-Clause"
+    ],
+    "require": {
+        "magento/framework": ">=100.1.0",
+        "php": ">=7.4.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Faslet\\Connect\\": ""
+        }
+    }
+}

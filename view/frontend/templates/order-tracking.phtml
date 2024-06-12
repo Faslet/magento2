@@ -1,0 +1,17 @@
+<?php /** @var \Magento\Framework\Escaper $escaper */ ?>
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+<?php /** @var \Faslet\Connect\ViewModel\OrderTracking $viewModel */ ?>
+
+<?php $viewModel = $block->getViewModel(); ?>
+<?php if ($orderData = $viewModel->getOrderTrackingData()): ?>
+    <script>window._faslet_orders.configure();</script>
+    <?php foreach ($orderData as $data): ?>
+        <script>
+            window._faslet_orders.event(
+                'widget_order_track',
+                '<?= $escaper->escapeHtmlAttr($viewModel->getShopId()); ?>',
+                <?= /* @noEscape */ json_encode($data); ?>
+            );
+        </script>
+    <?php endforeach; ?>
+<?php endif; ?>
