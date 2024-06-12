@@ -1,4 +1,4 @@
-![base-image](https://github.com/faslet/magento2/assets/header.jpg)
+![base-image](https://github.com/Faslet/magento2/blob/main/assets/header.jpg?raw=true)
 
 # Faslet widget for Magento® 2
 
