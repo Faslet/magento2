@@ -1,4 +1,4 @@
-![base-image](https://github.com/magmodules/magento2-faslet-dev/assets/24823946/eba2bce1-6b46-41f0-aa1f-9263c663ed9c)
+![base-image](https://github.com/faslet/magento2/assets/header.jpg)
 
 # Faslet widget for Magento® 2
 
@@ -24,7 +24,7 @@ Faslet’s size recommendation solution, therefore, benefits you, your customers
 
    ```
    composer require faslet/magento2
-   ``` 
+   ```
 
 3. Enter following commands to enable module:
 
@@ -67,7 +67,6 @@ Faslet’s size recommendation solution, therefore, benefits you, your customers
 We are a Dutch Magento® Only Agency dedicated to the development of extensions for Magento® 1 and Magento® 2. All our extensions are coded by our own team and our support team is always there to help you out.
 
 [Visit Magmodules.eu](https://www.magmodules.eu/)
-
 
 ## Links
 
