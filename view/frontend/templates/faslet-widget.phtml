@@ -5,17 +5,6 @@
 <?php $viewModel = $block->getViewModel(); ?>
 <?php if ($widgetData = $viewModel->getWidgetData()): ?>
     <?= /* @noEscape */ "<script>console.log(JSON.parse('" . json_encode($widgetData) . "'));</script>"; ?>
-    <div class="faslet-widget-box">
-        <faslet-app
-                shop-id="<?= $escaper->escapeHtmlAttr($widgetData['shop']['id'] ?? ''); ?>"
-                brand="<?= $escaper->escapeHtmlAttr($widgetData['product']['brand'] ?? ''); ?>"
-                product-identifier="<?= $escaper->escapeHtmlAttr($widgetData['product']['id'] ?? ''); ?>"
-                product-name="<?= $escaper->escapeHtmlAttr($widgetData['product']['name'] ?? ''); ?>"
-                product-img="<?= $escaper->escapeHtmlAttr($widgetData['product']['image'] ?? ''); ?>"
-                platform="Magento 2"
-        />
-    </div>
-
     <script type="text/x-magento-init">
          {
               "*": {
@@ -28,4 +17,15 @@
               }
           }
     </script>
+    
+    <div class="faslet-widget-box">
+        <faslet-app
+                shop-id="<?= $escaper->escapeHtmlAttr($widgetData['shop']['id'] ?? ''); ?>"
+                brand="<?= $escaper->escapeHtmlAttr($widgetData['product']['brand'] ?? ''); ?>"
+                product-identifier="<?= $escaper->escapeHtmlAttr($widgetData['product']['id'] ?? ''); ?>"
+                product-name="<?= $escaper->escapeHtmlAttr($widgetData['product']['name'] ?? ''); ?>"
+                product-img="<?= $escaper->escapeHtmlAttr($widgetData['product']['image'] ?? ''); ?>"
+                platform="Magento 2"
+        />
+    </div>
 <?php endif; ?>
