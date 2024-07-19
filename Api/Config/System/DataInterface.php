@@ -23,5 +23,5 @@ interface DataInterface
     /**
      * @return array
      */
-    public function getAttributes(): array;
+    public function getAttributes($storeId): array;
 }

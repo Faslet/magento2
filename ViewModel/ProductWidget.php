@@ -5,7 +5,6 @@ namespace Faslet\Connect\ViewModel;
 use Faslet\Connect\Api\Config\RepositoryInterface as ConfigProvider;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Helper\Data as CatalogHelper;
-use Magento\Catalog\Helper\ImageFactory;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
@@ -34,10 +33,6 @@ class ProductWidget implements ArgumentInterface
      */
     private $productCollectionFactory;
     /**
-     * @var ImageFactory
-     */
-    private $imageHelperFactory;
-    /**
      * @var CatalogHelper
      */
     private $catalogHelper;
@@ -49,20 +44,17 @@ class ProductWidget implements ArgumentInterface
     /**
      * ProductWidget constructor.
      * @param ProductCollectionFactory $productCollectionFactory
-     * @param ImageFactory $imageHelperFactory
      * @param ConfigProvider $configProvider
      * @param CatalogHelper $catalogHelper
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         ProductCollectionFactory $productCollectionFactory,
-        ImageFactory $imageHelperFactory,
         ConfigProvider $configProvider,
         CatalogHelper $catalogHelper,
         StoreManagerInterface $storeManager
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
-        $this->imageHelperFactory = $imageHelperFactory;
         $this->configProvider = $configProvider;
         $this->catalogHelper = $catalogHelper;
         $this->storeManager = $storeManager;
@@ -137,7 +129,8 @@ class ProductWidget implements ArgumentInterface
     private function getAttributes(): array
     {
         if (!$this->attributes) {
-            $this->attributes = $this->configProvider->getAttributes();
+            $storeId = (int)$this->storeManager->getStore()->getId();
+            $this->attributes = $this->configProvider->getAttributes($storeId);
         }
         return $this->attributes;
     }

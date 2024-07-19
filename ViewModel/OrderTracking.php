@@ -5,11 +5,13 @@ namespace Faslet\Connect\ViewModel;
 use Exception;
 use Faslet\Connect\Api\Config\RepositoryInterface as ConfigProvider;
 use Faslet\Connect\Api\Log\RepositoryInterface as LogRepository;
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\OrderFactory;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * OrderTracking view model
@@ -37,19 +39,38 @@ class OrderTracking implements ArgumentInterface
      * @var LogRepository
      */
     private $logRepository;
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+    /**
+     * @var array
+     */
+    private $attributes = [];
 
+    /**
+     * OrderTracking constructor.
+     * @param OrderFactory $orderFactory
+     * @param CheckoutSession $checkoutSession
+     * @param ProductRepository $productRepository
+     * @param ConfigProvider $configProvider
+     * @param LogRepository $logRepository
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
         OrderFactory $orderFactory,
         CheckoutSession $checkoutSession,
         ProductRepository $productRepository,
         ConfigProvider $configProvider,
-        LogRepository $logRepository
+        LogRepository $logRepository,
+        StoreManagerInterface $storeManager
     ) {
         $this->configProvider = $configProvider;
         $this->orderFactory = $orderFactory;
         $this->checkoutSession = $checkoutSession;
         $this->productRepository = $productRepository;
         $this->logRepository = $logRepository;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -119,13 +140,41 @@ class OrderTracking implements ArgumentInterface
         }
 
         return [
-            'sku' => $orderItem->getSku(),
-            'correlationId' => $orderItem->getProductId(),
+            'sku' => $this->getAttributeValue($orderItem->getProduct(), 'sku'),
+            'correlationId' => $this->getAttributeValue($orderItem->getProduct(), 'identifier'),
             'title' => $orderItem->getName(),
-            'variant_id' => $variant ? $variant->getId() : null,
+            'variant_id' => $variant ? $this->getAttributeValue($variant, 'identifier') : null,
             'variant' => $variant ? $variant->getName() : null,
             'price' => $orderItem->getRowTotalInclTax(),
             'quantity' => (int)$orderItem->getQtyOrdered()
         ];
+    }
+
+    /**
+     * @param ProductInterface $product
+     * @param string $type
+     * @return mixed
+     */
+    private function getAttributeValue(ProductInterface $product, string $type)
+    {
+        $attributes = $this->getAttributes();
+        $attribute = $attributes[$type] ?? null;
+        if ($attribute && $value = $product->getAttributeText($attribute)) {
+            return $value;
+        }
+
+        return $product->getData($attribute);
+    }
+
+    /**
+     * @return array
+     */
+    private function getAttributes(): array
+    {
+        if (!$this->attributes) {
+            $storeId = (int)$this->storeManager->getStore()->getId();
+            $this->attributes = $this->configProvider->getAttributes($storeId);
+        }
+        return $this->attributes;
     }
 }

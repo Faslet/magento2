@@ -18,14 +18,14 @@ class DataRepository extends BaseRepository implements DataInterface
     /**
      * @inheritDoc
      */
-    public function getAttributes(): array
+    public function getAttributes($storeId): array
     {
         return [
-            'identifier' => $this->getStoreValue(self::IDENTIFIER_ATTRIBUTE),
-            'sku' => $this->getStoreValue(self::SKU_ATTRIBUTE),
-            'brand' => $this->getStoreValue(self::BRAND_ATTRIBUTE),
-            'size' => $this->getStoreValue(self::SIZE_ATTRIBUTE),
-            'color' => $this->getStoreValue(self::COLOR_ATTRIBUTE)
+            'identifier' => $this->getStoreValue(self::IDENTIFIER_ATTRIBUTE, $storeId),
+            'sku' => $this->getStoreValue(self::SKU_ATTRIBUTE, $storeId),
+            'brand' => $this->getStoreValue(self::BRAND_ATTRIBUTE, $storeId),
+            'size' => $this->getStoreValue(self::SIZE_ATTRIBUTE, $storeId),
+            'color' => $this->getStoreValue(self::COLOR_ATTRIBUTE, $storeId)
         ];
     }
 }
