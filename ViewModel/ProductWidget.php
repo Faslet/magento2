@@ -6,10 +6,13 @@ use Faslet\Connect\Api\Config\RepositoryInterface as ConfigProvider;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Helper\Data as CatalogHelper;
 use Magento\Catalog\Helper\ImageFactory;
+use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * ProductWidget view model
@@ -38,17 +41,31 @@ class ProductWidget implements ArgumentInterface
      * @var CatalogHelper
      */
     private $catalogHelper;
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
 
+    /**
+     * ProductWidget constructor.
+     * @param ProductCollectionFactory $productCollectionFactory
+     * @param ImageFactory $imageHelperFactory
+     * @param ConfigProvider $configProvider
+     * @param CatalogHelper $catalogHelper
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
         ProductCollectionFactory $productCollectionFactory,
         ImageFactory $imageHelperFactory,
         ConfigProvider $configProvider,
-        CatalogHelper $catalogHelper
+        CatalogHelper $catalogHelper,
+        StoreManagerInterface $storeManager
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->imageHelperFactory = $imageHelperFactory;
         $this->configProvider = $configProvider;
         $this->catalogHelper = $catalogHelper;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -71,7 +88,7 @@ class ProductWidget implements ArgumentInterface
             'product' => [
                 'id' => $this->getAttributeValue($product, 'identifier'),
                 'name' => $product->getName(),
-                'image' => $this->imageHelperFactory->create()->init($product, 'product_base_image')->getUrl(),
+                'image' => $this->getImageUrl($product),
                 'brand' => $this->getAttributeValue($product, 'brand'),
                 'sku' => $this->getAttributeValue($product, 'sku'),
                 'variants' => $this->getVariants($product)
@@ -133,18 +150,37 @@ class ProductWidget implements ArgumentInterface
     {
         $variants = [];
 
-        foreach ($this->getAllUsedProducts($product) as $product) {
+        foreach ($this->getAllUsedProducts($product) as $childProduct) {
             $variants[] = [
-                'id' => $this->getAttributeValue($product, 'identifier'),
-                'size' => $this->getAttributeValue($product, 'size'),
-                'color' => $this->getAttributeValue($product, 'color'),
-                'available' => $product->isSalable(),
-                'sku' => $this->getAttributeValue($product, 'sku'),
-                'price' => $product->getPrice(),
-                'imageUrl' => $this->imageHelperFactory->create()->init($product, 'image')->getUrl()
+                'id' => $this->getAttributeValue($childProduct, 'identifier'),
+                'size' => $this->getAttributeValue($childProduct, 'size'),
+                'color' => $this->getAttributeValue($childProduct, 'color'),
+                'available' => $childProduct->isSalable(),
+                'sku' => $this->getAttributeValue($childProduct, 'sku'),
+                'price' => $childProduct->getPrice(),
+                'imageUrl' => $this->getImageUrl($childProduct),
             ];
         }
         return $variants;
+    }
+
+    /**
+     * @param Product $product
+     * @return string|null
+     */
+    private function getImageUrl(Product $product): ?string
+    {
+        $imageUrl = null;
+        if ($product->getImage()) {
+            try {
+                $imageUrl = $this->storeManager->getStore()
+                        ->getBaseUrl(UrlInterface::URL_TYPE_MEDIA)
+                    . 'catalog/product' . $product->getImage();
+            } catch (\Exception $e) {
+                return null;
+            }
+        }
+        return $imageUrl;
     }
 
     /**
@@ -156,7 +192,7 @@ class ProductWidget implements ArgumentInterface
         $childrenIds = $product->getTypeInstance()->getChildrenIds($product->getId());
 
         return $this->productCollectionFactory->create()
-            ->addAttributeToSelect(array_values($this->getAttributes()) + ['image'])
+            ->addAttributeToSelect(array_merge(array_values($this->getAttributes()), ['image']))
             ->addAttributeToFilter('entity_id', ['in' => $childrenIds])
             ->addPriceData();
     }
