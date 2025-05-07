@@ -2,20 +2,32 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Faslet\Connect\Api\Config\RepositoryInterface" type="Faslet\Connect\Model\Config\Repository"/>
     <preference for="Faslet\Connect\Api\Log\RepositoryInterface" type="Faslet\Connect\Model\Log\Repository"/>
-    <type name="Faslet\Connect\Logger\ErrorLogger">
-        <arguments>
-            <argument name="name" xsi:type="string">FasletError</argument>
-            <argument name="handlers" xsi:type="array">
-                <item name="system" xsi:type="object">Faslet\Connect\Logger\Handler\Error</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Faslet\Connect\Logger\DebugLogger">
+
+    <virtualType name="FasletDebugMonolog" type="Monolog\Logger">
         <arguments>
             <argument name="name" xsi:type="string">FasletDebug</argument>
             <argument name="handlers" xsi:type="array">
-                <item name="system" xsi:type="object">Faslet\Connect\Logger\Handler\Debug</item>
+                <item name="debug" xsi:type="object">Faslet\Connect\Logger\Handler\Debug</item>
             </argument>
         </arguments>
+    </virtualType>
+    <virtualType name="FasletErrorMonolog" type="Monolog\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">FasletError</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="error" xsi:type="object">Faslet\Connect\Logger\Handler\Error</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Faslet\Connect\Logger\DebugLogger">
+        <arguments>
+            <argument name="logger" xsi:type="object">FasletDebugMonolog</argument>
+        </arguments>
     </type>
+    <type name="Faslet\Connect\Logger\ErrorLogger">
+        <arguments>
+            <argument name="logger" xsi:type="object">FasletErrorMonolog</argument>
+        </arguments>
+    </type>
+    
 </config>

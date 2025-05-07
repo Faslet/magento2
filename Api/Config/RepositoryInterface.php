@@ -21,7 +21,7 @@ interface RepositoryInterface extends System\DataInterface
      *
      * @return bool
      */
-    public function isEnabled(int $storeId = null): bool;
+    public function isEnabled(?int $storeId = null): bool;
 
     /**
      * Get extension version
@@ -44,7 +44,7 @@ interface RepositoryInterface extends System\DataInterface
      *
      * @return bool
      */
-    public function isDebugMode(int $storeId = null): bool;
+    public function isDebugMode(?int $storeId = null): bool;
 
     /**
      * Support link for extension

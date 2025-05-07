@@ -21,7 +21,7 @@ class Repository extends System\DataRepository implements ConfigRepositoryInterf
     /**
      * @inheritDoc
      */
-    public function isDebugMode(int $storeId = null): bool
+    public function isDebugMode(?int $storeId = null): bool
     {
         return $this->isSetFlag(self::XML_PATH_DEBUG, $storeId);
     }
@@ -29,7 +29,7 @@ class Repository extends System\DataRepository implements ConfigRepositoryInterf
     /**
      * @inheritDoc
      */
-    public function isEnabled(int $storeId = null): bool
+    public function isEnabled(?int $storeId = null): bool
     {
         return $this->isSetFlag(self::XML_PATH_EXTENSION_ENABLE, $storeId);
     }
