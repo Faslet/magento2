@@ -10,7 +10,8 @@ use Magento\Catalog\Model\ProductRepository;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\OrderFactory;
+use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
@@ -24,9 +25,9 @@ class OrderTracking implements ArgumentInterface
      */
     private $configProvider;
     /**
-     * @var OrderFactory
+     * @var OrderRepositoryInterface
      */
-    private $orderFactory;
+    private $orderRepository;
     /**
      * @var CheckoutSession
      */
@@ -48,29 +49,20 @@ class OrderTracking implements ArgumentInterface
      */
     private $attributes = [];
 
-    /**
-     * OrderTracking constructor.
-     * @param OrderFactory $orderFactory
-     * @param CheckoutSession $checkoutSession
-     * @param ProductRepository $productRepository
-     * @param ConfigProvider $configProvider
-     * @param LogRepository $logRepository
-     * @param StoreManagerInterface $storeManager
-     */
     public function __construct(
-        OrderFactory $orderFactory,
         CheckoutSession $checkoutSession,
         ProductRepository $productRepository,
         ConfigProvider $configProvider,
         LogRepository $logRepository,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        OrderRepositoryInterface $orderRepository
     ) {
         $this->configProvider = $configProvider;
-        $this->orderFactory = $orderFactory;
         $this->checkoutSession = $checkoutSession;
         $this->productRepository = $productRepository;
         $this->logRepository = $logRepository;
         $this->storeManager = $storeManager;
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -117,7 +109,11 @@ class OrderTracking implements ArgumentInterface
     public function getOrder(): ?Order
     {
         if ($orderId = $this->checkoutSession->getLastOrderId()) {
-            return $this->orderFactory->create()->load($orderId);
+            try {
+                return $this->orderRepository->get($orderId);
+            } catch (NoSuchEntityException $e) {
+                $this->logRepository->addErrorLog('getOrder Order ID not found', $e->getMessage());
+            }
         }
 
         return null;
