@@ -136,7 +136,7 @@ class OrderTracking implements ArgumentInterface
         }
 
         return [
-            'sku' => $this->getAttributeValue($orderItem->getProduct(), 'sku'),
+            'sku' => $variant ? $this->getAttributeValue($variant, 'sku') : $this->getAttributeValue($orderItem->getProduct(), 'sku'),
             'correlationId' => $this->getAttributeValue($orderItem->getProduct(), 'identifier'),
             'title' => $orderItem->getName(),
             'variant_id' => $variant ? $this->getAttributeValue($variant, 'identifier') : null,
