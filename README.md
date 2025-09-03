@@ -12,7 +12,7 @@ Offering this type of certainty regarding size will make your customers feel con
 
 Faslet’s size recommendation solution, therefore, benefits you, your customers, and the environment. It’s an innovative, user-friendly, and sustainable solution to sizing and online shopping.
 
-[Visit Faslet](https://site.faslet.me/)
+[Visit Faslet](https://faslet.me/)
 
 ## Installation
 
