@@ -12,7 +12,7 @@ interface RepositoryInterface extends System\DataInterface
     public const XML_PATH_EXTENSION_VERSION = 'faslet_connect/general/version';
     public const XML_PATH_EXTENSION_ENABLE = 'faslet_connect/general/enable';
     public const XML_PATH_DEBUG = 'faslet_connect/general/debug';
-    public const MODULE_SUPPORT_LINK = 'https://site.faslet.me/contact-us';
+    public const MODULE_SUPPORT_LINK = 'https://faslet.me/faslet/contact';
 
     /**
      * Check if module is enabled
