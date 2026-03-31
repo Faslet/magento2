@@ -18,7 +18,7 @@ interface DataInterface
     /**
      * @return string|null
      */
-    public function getShopId(): ?string;
+    public function getShopId(?int $storeId = null): ?string;
 
     /**
      * @return array

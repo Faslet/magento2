@@ -6,6 +6,11 @@
                 <version>v1.1.0</version>
                 <enable>0</enable>
             </general>
+            <rma>
+                <export_enabled>0</export_enabled>
+                <timeout>5</timeout>
+                <lifecycle_events>created,return_received,approved,rejected,closed</lifecycle_events>
+            </rma>
             <data>
                 <identifier_attribute>entity_id</identifier_attribute>
                 <sku_attribute>sku</sku_attribute>

@@ -29,5 +29,5 @@
             <argument name="logger" xsi:type="object">FasletErrorMonolog</argument>
         </arguments>
     </type>
-    
+
 </config>

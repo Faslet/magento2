@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="rma" translate="label comment" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Adobe Commerce RMA</label>
+        <comment>This feature exports Adobe Commerce RMA events to the Faslet backend. It remains inactive on Magento Open Source because the native RMA module is not available there.</comment>
+        <field id="export_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Enable RMA Export</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>faslet_connect/rma/export_enabled</config_path>
+        </field>
+        <field id="endpoint_url" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Faslet Endpoint URL</label>
+            <comment>Internal Faslet ingestion endpoint that receives raw Adobe Commerce RMA events.</comment>
+            <config_path>faslet_connect/rma/endpoint_url</config_path>
+            <validate>validate-url</validate>
+            <depends>
+                <field id="export_enabled">1</field>
+            </depends>
+        </field>
+        <field id="auth_token" translate="label comment" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Auth Token</label>
+            <comment>Optional bearer token used for outbound authentication.</comment>
+            <config_path>faslet_connect/rma/auth_token</config_path>
+            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+            <depends>
+                <field id="export_enabled">1</field>
+            </depends>
+        </field>
+        <field id="timeout" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Request Timeout</label>
+            <comment>Timeout in seconds for outbound RMA export calls.</comment>
+            <config_path>faslet_connect/rma/timeout</config_path>
+            <validate>validate-digits validate-greater-than-zero</validate>
+            <depends>
+                <field id="export_enabled">1</field>
+            </depends>
+        </field>
+        <field id="lifecycle_events" translate="label comment" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Lifecycle Events</label>
+            <comment>Select which Adobe Commerce RMA lifecycle events should be exported to Faslet.</comment>
+            <config_path>faslet_connect/rma/lifecycle_events</config_path>
+            <source_model>Faslet\Connect\Model\System\Config\Source\RmaLifecycleEvent</source_model>
+            <depends>
+                <field id="export_enabled">1</field>
+            </depends>
+        </field>
+    </group>
+</include>

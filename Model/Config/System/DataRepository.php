@@ -10,9 +10,9 @@ class DataRepository extends BaseRepository implements DataInterface
     /**
      * @inheritDoc
      */
-    public function getShopId(): ?string
+    public function getShopId(?int $storeId = null): ?string
     {
-        return $this->getStoreValue(self::SHOP_ID);
+        return $this->getStoreValue(self::SHOP_ID, $storeId);
     }
 
     /**

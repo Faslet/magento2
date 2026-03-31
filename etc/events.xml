@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="model_save_commit_after">
+        <observer name="faslet_connect_export_rma_after_save" instance="Faslet\Connect\Observer\ExportRmaAfterSave" />
+    </event>
+</config>

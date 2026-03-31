@@ -4,6 +4,7 @@ namespace Faslet\Connect\Model\Config\System;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ProductMetadata;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -28,6 +29,10 @@ class BaseRepository
      * @var StoreManagerInterface
      */
     protected $storeManager;
+    /**
+     * @var EncryptorInterface
+     */
+    protected $encryptor;
 
     /**
      * BaseRepository constructor.
@@ -35,17 +40,20 @@ class BaseRepository
      * @param Json $json
      * @param ProductMetadata $metadata
      * @param StoreManagerInterface $storeManager
+     * @param EncryptorInterface $encryptor
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Json $json,
         ProductMetadata $metadata,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        EncryptorInterface $encryptor
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->json = $json;
         $this->metadata = $metadata;
         $this->storeManager = $storeManager;
+        $this->encryptor = $encryptor;
     }
 
     /**
@@ -80,6 +88,26 @@ class BaseRepository
         }
 
         return $this->scopeConfig->isSetFlag($path, $scope, $storeId);
+    }
+
+    /**
+     * Retrieve and decrypt a config value by path, storeId and scope.
+     *
+     * @param string $path
+     * @param int|null $storeId
+     * @param string|null $scope
+     *
+     * @return string|null
+     */
+    protected function getDecryptedStoreValue(string $path, ?int $storeId = null, ?string $scope = null): ?string
+    {
+        $value = $this->getStoreValue($path, $storeId, $scope);
+
+        if ($value === null || $value === '') {
+            return $value;
+        }
+
+        return $this->encryptor->decrypt($value);
     }
 
     /**
