@@ -3,7 +3,10 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - '#Variable \$block might not be defined.#'
+        - '#Variable \$escaper might not be defined.#'
         - '#Undefined variable: \$block#'
+        # Monolog 3 marks Logger as @final (docblock only); Magento core extends it the same way.
+        - '#extends @final class Monolog\\Logger#'
     fileExtensions:
         - php
         - phtml

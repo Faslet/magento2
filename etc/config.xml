@@ -3,7 +3,7 @@
     <default>
         <faslet_connect>
             <general>
-                <version>v1.1.0</version>
+                <version>v1.1.3</version>
                 <enable>0</enable>
             </general>
             <data>

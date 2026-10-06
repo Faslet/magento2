@@ -4,7 +4,6 @@
 
 <?php $viewModel = $block->getViewModel(); ?>
 <?php if ($widgetData = $viewModel->getWidgetData()): ?>
-    <?= /* @noEscape */ "<script>console.log(JSON.parse('" . json_encode($widgetData) . "'));</script>"; ?>
     <script type="text/x-magento-init">
          {
               "*": {

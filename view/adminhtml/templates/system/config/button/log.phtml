@@ -5,12 +5,13 @@ use Faslet\Connect\Block\Adminhtml\System\Config\Button\Log;
 /**
  * @see \Faslet\Connect\Block\Adminhtml\System\Config\Button\Log
  * @var Log $block
+ * @var \Magento\Framework\Escaper $escaper
  */
 ?>
 
 <div class="mm-ui-debug-button-wrapper">
     <div id="mm-ui-result_debug-modal"
-         data-mm-ui-endpoind-url="<?= $block->escapeUrl($block->getDownloadUrl('debug')) ?>">
+         data-mm-ui-endpoind-url="<?= $escaper->escapeUrl($block->getDownloadUrl('debug')) ?>">
         <div id="mm-ui-result_debug">
             <div class="result"></div>
         </div>
@@ -23,7 +24,7 @@ use Faslet\Connect\Block\Adminhtml\System\Config\Button\Log;
         </svg>
     </div>
     <div id="mm-ui-result_error-modal"
-         data-mm-ui-endpoind-url="<?= $block->escapeUrl($block->getDownloadUrl('error')) ?>">
+         data-mm-ui-endpoind-url="<?= $escaper->escapeUrl($block->getDownloadUrl('error')) ?>">
         <div id="mm-ui-result_error">
             <div class="result"></div>
         </div>
