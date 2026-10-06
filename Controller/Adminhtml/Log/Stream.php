@@ -3,6 +3,7 @@
 namespace Faslet\Connect\Controller\Adminhtml\Log;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
@@ -11,7 +12,7 @@ use Faslet\Connect\Api\Log\RepositoryInterface as LogRepository;
 /**
  * AJAX controller to check logs
  */
-class Stream extends Action
+class Stream extends Action implements HttpGetActionInterface
 {
     /**
      * Authorization level of a basic admin session

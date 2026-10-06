@@ -7,8 +7,6 @@ define(function() {
             color: '',
         }
 
-        console.log('config - ', config);
-
         window._faslet = {
             id: config.productId,
             shopUrl: config.shopUrl,
@@ -21,10 +19,12 @@ define(function() {
                 const qty = document.querySelector('input.qty');
                 const addToCart = document.querySelector('button.tocart');
 
-                optionSize.click();
-                optionColor.click();
-                qty.value = 1;
-                addToCart.click();
+                optionSize?.click();
+                optionColor?.click();
+                if (qty) {
+                    qty.value = 1;
+                }
+                addToCart?.click();
             },
 
             onResult(result, _) {
