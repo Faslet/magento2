@@ -30,4 +30,4 @@ jobs:
   php-85:
     runs-on: ubuntu-latest
     steps:
-      - uses: prestashop/github-action-php-lint/8.5@master
+      - uses: prestashop/github-action-php-lint/8.5@c0d13470482bd851e77138cc7a7c0783bf140ed1
